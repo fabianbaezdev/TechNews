@@ -1,9 +1,11 @@
 package cl.fabianbaez.technews.data
 
+import cl.fabianbaez.technews.data.remote.model.RemoteHit
 import cl.fabianbaez.technews.domain.Repository
 import cl.fabianbaez.technews.domain.model.Hit
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import java.net.UnknownHostException
 import javax.inject.Inject
 
 class RepositoryImpl @Inject constructor(
@@ -18,7 +20,12 @@ class RepositoryImpl @Inject constructor(
     }
 
     override fun getHits(): Flow<List<Hit>> = flow {
-        val remoteHits = remote.getNews().hits.orEmpty()
+        val remoteHits = try {
+            remote.getNews().hits.orEmpty()
+        } catch (e: UnknownHostException) {
+            e.printStackTrace()
+            emptyList<RemoteHit>()
+        }
         with(hitMapper) {
             if (remoteHits.isNotEmpty()) {
                 local.storeHits(remoteHits.toLocal())

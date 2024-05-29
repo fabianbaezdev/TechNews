@@ -15,7 +15,7 @@ interface HitDao {
     suspend fun insertAll(localHits: List<LocalHit>)
 
     @Transaction
-    @Query("SELECT * FROM $HIT_TABLE WHERE hide=0")
+    @Query("SELECT * FROM $HIT_TABLE WHERE hide=0 ORDER BY createdAt DESC")
     suspend fun getAll(): List<LocalHit>
 
     @Transaction

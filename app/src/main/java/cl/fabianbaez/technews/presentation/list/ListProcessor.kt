@@ -37,7 +37,7 @@ class ListProcessor @Inject constructor(
                 cause.printStackTrace()
                 Log.e("getHitsProcessor", "Error", cause)
                 emit(ListMVI.ListResult.GetHitsResult.Error(cause))
-            }
+            }.flowOn(Dispatchers.IO)
 
     private fun hideHitProcessor(hit: Hit) = flow<ListMVI.ListResult> {
         hideHitUseCase.execute(hit).collect { hits ->

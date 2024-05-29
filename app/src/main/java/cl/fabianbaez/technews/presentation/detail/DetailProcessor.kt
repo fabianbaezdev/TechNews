@@ -8,9 +8,11 @@ import cl.fabianbaez.technews.presentation.detail.DetailMVI.DetailResult.HitResu
 import cl.fabianbaez.technews.presentation.detail.DetailMVI.DetailResult.HitResult.Error
 import cl.fabianbaez.technews.presentation.detail.DetailMVI.DetailResult.HitResult.InProgress
 import cl.fabianbaez.technews.presentation.detail.DetailMVI.DetailResult.HitResult.Success
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onStart
 import javax.inject.Inject
@@ -37,7 +39,7 @@ class DetailProcessor @Inject constructor(
                 cause.printStackTrace()
                 Log.e("getHitProcessor", "Error", cause)
                 emit(Error(cause))
-            }
+            }.flowOn(Dispatchers.IO)
 
     private fun backProcessor(): Flow<DetailResult> =
         flow { emit(DetailResult.BackResult) }
