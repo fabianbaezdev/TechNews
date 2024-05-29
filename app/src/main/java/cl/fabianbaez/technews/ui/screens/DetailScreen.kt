@@ -93,7 +93,7 @@ fun DetailScreen(
                             IconButton(onClick = { onNavigationRequested(BackNavigation) }) {
                                 Icon(
                                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                                    contentDescription = "Back"
+                                    contentDescription = "BackIcon"
                                 )
                             }
                         }
@@ -123,7 +123,9 @@ fun DetailScreen(
                         }
                     }, update = {
                         it.loadUrl(hit.url)
-                    })
+                    }, modifier = Modifier
+                        .testTag("WebView")
+                    )
                 }
             }
         }
