@@ -9,6 +9,7 @@ class DataHitMapper @Inject constructor() {
     fun List<RemoteHit>.toLocal() = this.map { it.toLocal() }
 
     fun RemoteHit.toLocal() = LocalHit(
+        id = objectID.orEmpty(),
         author = author.orEmpty(),
         createdAt = createdAt.orEmpty(),
         title = storyTitle ?: title.orEmpty(),
@@ -24,5 +25,14 @@ class DataHitMapper @Inject constructor() {
         createdAt = createdAt,
         title = title,
         url = url,
+    )
+
+    fun Hit.toLocal() = LocalHit(
+        id = id,
+        author = author,
+        createdAt = createdAt,
+        title = title,
+        url = url,
+        hide = true
     )
 }

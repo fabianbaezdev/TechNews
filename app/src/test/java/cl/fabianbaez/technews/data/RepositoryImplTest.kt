@@ -35,6 +35,7 @@ class RepositoryImplTest {
 
         flow.collect { hitList ->
             remoteNews.hits?.zip(hitList)?.map {
+                assertEquals(it.first.objectID.orEmpty(), it.second.id)
                 assertEquals(it.first.author.orEmpty(), it.second.author)
                 assertEquals(it.first.createdAt.orEmpty(), it.second.createdAt)
                 assertEquals(it.first.storyTitle ?: it.first.title.orEmpty(), it.second.title)
@@ -45,19 +46,20 @@ class RepositoryImplTest {
     }
 
     @Test
-    fun `given Hit id, when hideHit, then return data`() = runBlocking {
-        val hit = makeLocalHit()
-        val localHits = listOf(makeLocalHit())
-        val hits = listOf(makeHit())
+    fun `given Hit, when hideHit, then return data`() = runBlocking {
+        val hit = makeHit()
+        val localHit = makeLocalHit()
+        val hits = listOf(hit)
+        val localHits = listOf(localHit)
 
-        coEvery { local.hideHit(hit) } returns Unit
+        coEvery { local.hideHit(localHit) } returns Unit
         coEvery { local.getHits() } returns flow { emit(localHits) }
+        every { with(hiltMapper) { hit.toLocal() } } returns localHit
         every { with(hiltMapper) { localHits.toDomain() } } returns hits
 
         repository.hideHit(hit).collect {}
 
-        coVerify { local.hideHit(hit) }
+        coVerify { local.hideHit(localHit) }
         coVerify { local.getHits() }
-
     }
 }

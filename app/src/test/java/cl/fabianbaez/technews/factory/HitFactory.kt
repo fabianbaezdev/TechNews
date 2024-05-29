@@ -6,7 +6,7 @@ import cl.fabianbaez.technews.domain.model.Hit
 
 object HitFactory {
     fun makeHit() = Hit(
-        id = 0,
+        id = "id",
         author = "author",
         createdAt = "createdAt",
         title = "title",
@@ -14,7 +14,7 @@ object HitFactory {
     )
 
     fun makeLocalHit() = LocalHit(
-        id = 0,
+        id = "id",
         author = "author",
         createdAt = "createdAt",
         title = "title",
@@ -34,7 +34,7 @@ object HitFactory {
         commentText = null,
         createdAtI = null,
         numComments = null,
-        objectID = null,
+        objectID = "id",
         parentId = null,
         points = null,
         storyId = null,
@@ -54,7 +54,7 @@ object HitFactory {
         commentText = null,
         createdAtI = null,
         numComments = null,
-        objectID = null,
+        objectID = "id",
         parentId = null,
         points = null,
         storyId = null,
@@ -74,7 +74,7 @@ object HitFactory {
         commentText = null,
         createdAtI = null,
         numComments = null,
-        objectID = null,
+        objectID = "id",
         parentId = null,
         points = null,
         storyId = null,

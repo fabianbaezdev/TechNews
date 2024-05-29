@@ -11,7 +11,7 @@ import cl.fabianbaez.technews.data.local.model.LocalHit
 
 @Dao
 interface HitDao {
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertAll(localHits: List<LocalHit>)
 
     @Transaction

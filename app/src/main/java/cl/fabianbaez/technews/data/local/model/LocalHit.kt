@@ -5,8 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = HIT_TABLE)
 data class LocalHit(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int = 0,
+    @PrimaryKey
+    val id: String,
     val author: String,
     val createdAt: String,
     val title: String,
