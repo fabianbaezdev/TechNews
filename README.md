@@ -2,8 +2,8 @@
 
 ### **Purpose**
 
-To show a demo Android App using Kotlin features, a small MVI architecture and latest Android
-libraries from Jetpack in 2024.
+Answer a technical test in an interview process with an application that meets the demands of the
+test, uses a Clean Architecture with MVI and the latest Android libraries from Jetpack in 2024.
 
 ### **Test Description**
 
