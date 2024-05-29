@@ -1,6 +1,15 @@
 package cl.fabianbaez.technews.presentation.list
 
 import cl.fabianbaez.technews.domain.model.Hit
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListAction.GetHitsAction
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListAction.HideHitAction
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListAction.HitDetailAction
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListEffect
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListIntent
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListIntent.GetHitsIntent
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListIntent.HitClicked
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListIntent.ReloadHitsIntent
+import cl.fabianbaez.technews.presentation.list.ListMVI.ListIntent.RemoveHit
 import cl.fabianbaez.technews.presentation.list.ListMVI.ListResult
 import cl.fabianbaez.technews.presentation.list.ListMVI.ListState
 import cl.fabianbaez.technews.presentation.list.ListMVI.ListState.DefaultUiState
@@ -15,24 +24,24 @@ import javax.inject.Inject
 class ListViewModel @Inject constructor(
     private val processor: ListProcessor,
     private val reducer: ListReducer,
-) : BaseViewModel<ListState, ListMVI.ListEffect, ListResult, ListMVI.ListIntent>(
+) : BaseViewModel<ListState, ListEffect, ListResult, ListIntent>(
     initialState = DefaultUiState
 ) {
     private val _isRefreshing = MutableStateFlow(false)
     val isRefreshing = _isRefreshing.asStateFlow()
 
     init {
-        acceptIntent(ListMVI.ListIntent.GetHitsIntent)
+        acceptIntent(GetHitsIntent)
     }
 
-    private fun ListMVI.ListIntent.toAction(): ListMVI.ListAction = when (this) {
-        is ListMVI.ListIntent.HitClicked -> ListMVI.ListAction.HitDetailAction(id)
-        ListMVI.ListIntent.GetHitsIntent -> ListMVI.ListAction.GetHitsAction
-        ListMVI.ListIntent.ReloadHitsIntent -> ListMVI.ListAction.GetHitsAction
-        is ListMVI.ListIntent.RemoveHit -> ListMVI.ListAction.HideHitAction(hit)
+    private fun ListIntent.toAction(): ListMVI.ListAction = when (this) {
+        is HitClicked -> HitDetailAction(id)
+        GetHitsIntent -> GetHitsAction
+        ReloadHitsIntent -> GetHitsAction
+        is RemoveHit -> HideHitAction(hit)
     }
 
-    override fun mapIntents(intent: ListMVI.ListIntent): Flow<ListResult> =
+    override fun mapIntents(intent: ListIntent): Flow<ListResult> =
         processor.actionProcessor(intent.toAction())
 
     override fun reduceUiState(
@@ -48,14 +57,14 @@ class ListViewModel @Inject constructor(
     }
 
     private fun hitClicked(id: String) {
-        publishEffect(ListMVI.ListEffect.Navigation.HitDetail(id = id))
+        publishEffect(ListEffect.Navigation.HitDetail(id = id))
     }
 
     fun refresh() {
-        acceptIntent(ListMVI.ListIntent.ReloadHitsIntent)
+        acceptIntent(ReloadHitsIntent)
     }
 
     fun removeHit(hit: Hit) {
-        acceptIntent(ListMVI.ListIntent.RemoveHit(hit))
+        acceptIntent(RemoveHit(hit))
     }
 }

@@ -13,7 +13,7 @@ class DataHitMapper @Inject constructor() {
         author = author.orEmpty(),
         createdAt = createdAt.orEmpty(),
         title = storyTitle ?: title.orEmpty(),
-        url = url.orEmpty(),
+        url = storyUrl.orEmpty(),
         hide = false
     )
 

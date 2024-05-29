@@ -23,6 +23,16 @@ class LocalImplTest {
     }
 
     @Test
+    fun `given LocalHit, when getHitById, the return data`() = runBlocking {
+        val localHit = makeLocalHit()
+        coEvery { databaseBuilder.hitDao().getById("id") } returns localHit
+
+        val flow = local.getHitById("id")
+        flow.collect { result ->
+            assertEquals(localHit, result)
+        }
+    }
+    @Test
     fun `given LocalHit, when getHits, the return data`() = runBlocking {
         val localHits = listOf(makeLocalHit())
         coEvery { databaseBuilder.hitDao().getAll() } returns localHits

@@ -11,6 +11,12 @@ class RepositoryImpl @Inject constructor(
     private val local: Local,
     private val hitMapper: DataHitMapper
 ) : Repository {
+    override fun getHitById(id: String): Flow<Hit> = flow {
+        local.getHitById(id).collect {
+            emit(with(hitMapper) { it.toDomain() })
+        }
+    }
+
     override fun getHits(): Flow<List<Hit>> = flow {
         val remoteHits = remote.getNews().hits.orEmpty()
         with(hitMapper) {

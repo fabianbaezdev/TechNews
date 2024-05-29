@@ -39,7 +39,7 @@ class RepositoryImplTest {
                 assertEquals(it.first.author.orEmpty(), it.second.author)
                 assertEquals(it.first.createdAt.orEmpty(), it.second.createdAt)
                 assertEquals(it.first.storyTitle ?: it.first.title.orEmpty(), it.second.title)
-                assertEquals(it.first.url.orEmpty(), it.second.url)
+                assertEquals(it.first.storyUrl.orEmpty(), it.second.url)
             }
             assertEquals(hitList.size, remoteNews.hits?.size)
         }
@@ -61,5 +61,18 @@ class RepositoryImplTest {
 
         coVerify { local.hideHit(localHit) }
         coVerify { local.getHits() }
+    }
+
+    @Test
+    fun `given Hit, when getHitById, then return data`() = runBlocking {
+        val hit = makeHit()
+        val localHit = makeLocalHit()
+
+        coEvery { local.getHitById("id") } returns flow { emit(localHit) }
+        every { with(hiltMapper) { localHit.toDomain() } } returns hit
+
+        repository.getHitById("id").collect {}
+
+        coVerify { local.getHitById("id") }
     }
 }

@@ -27,7 +27,7 @@ object HitFactory {
         createdAt = "createdAt",
         storyTitle = "title",
         title = "title",
-        url = "url",
+        url = "as",
         children = null,
         highlightResult = null,
         tags = null,
@@ -38,7 +38,7 @@ object HitFactory {
         parentId = null,
         points = null,
         storyId = null,
-        storyUrl = null,
+        storyUrl = "url",
         updatedAt = null
     )
 
@@ -47,7 +47,7 @@ object HitFactory {
         createdAt = "createdAt",
         storyTitle = "title",
         title = null,
-        url = "url",
+        url = "urld",
         children = null,
         highlightResult = null,
         tags = null,
@@ -58,7 +58,7 @@ object HitFactory {
         parentId = null,
         points = null,
         storyId = null,
-        storyUrl = null,
+        storyUrl = "url",
         updatedAt = null
     )
 
@@ -67,7 +67,7 @@ object HitFactory {
         createdAt = "createdAt",
         storyTitle = null,
         title = "title",
-        url = "url",
+        url = "urls",
         children = null,
         highlightResult = null,
         tags = null,
@@ -78,7 +78,7 @@ object HitFactory {
         parentId = null,
         points = null,
         storyId = null,
-        storyUrl = null,
+        storyUrl = "url",
         updatedAt = null
     )
 

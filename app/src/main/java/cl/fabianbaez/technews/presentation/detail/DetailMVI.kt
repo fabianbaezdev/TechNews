@@ -1,34 +1,46 @@
 package cl.fabianbaez.technews.presentation.detail
 
 import cl.fabianbaez.technews.domain.model.Hit
+import cl.fabianbaez.technews.presentation.mvi.MviAction
 import cl.fabianbaez.technews.presentation.mvi.MviEffect
 import cl.fabianbaez.technews.presentation.mvi.MviIntent
 import cl.fabianbaez.technews.presentation.mvi.MviResult
 import cl.fabianbaez.technews.presentation.mvi.MviState
 
 class DetailMVI {
-    sealed class Intent : MviIntent {
-        object BackClicked : Intent()
+    sealed class DetailIntent : MviIntent {
+        data object BackClicked : DetailIntent()
+        data class GetHitIntent(val id: String) : DetailIntent()
     }
 
 
-    sealed class MainUiState : MviState {
-        object DefaultUiState : MainUiState()
-        object LoadingUiState : MainUiState()
-        data class DisplayHitUiState(val hit: Hit) : MainUiState()
-        data class ErrorUiState(val error: Throwable) : MainUiState()
+    sealed class DetailState : MviState {
+        data object DefaultUiState : DetailState()
+        data object LoadingUiState : DetailState()
+        data class DisplayHitUiState(val hit: Hit) : DetailState()
+        data class ErrorUiState(val error: Throwable) : DetailState()
     }
 
-    sealed class Effect : MviEffect {
-        sealed class Navigation : Effect() {
-            object BackNavigation : Navigation()
+    sealed class DetailEffect : MviEffect {
+        sealed class Navigation : DetailEffect() {
+            data object BackNavigation : Navigation()
         }
     }
 
-    sealed class MainResult : MviResult {
-        object InProgress : MainResult()
-        data class Success(val hit: Hit) : MainResult()
-        data class Error(val error: Throwable) : MainResult()
+    sealed class DetailResult : MviResult {
+        sealed class HitResult : DetailResult() {
+            data object InProgress : HitResult()
+            data class Success(val hit: Hit) : HitResult()
+            data class Error(val error: Throwable) : HitResult()
+        }
+
+        data object BackResult : DetailResult()
+    }
+
+    sealed class DetailAction : MviAction {
+
+        data class GetHitAction(val id: String) : DetailAction()
+        data object BackAction : DetailAction()
 
     }
 

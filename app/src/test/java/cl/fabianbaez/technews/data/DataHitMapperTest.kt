@@ -24,7 +24,7 @@ class DataHitMapperTest {
             assertEquals(it.first.author.orEmpty(), it.second.author)
             assertEquals(it.first.createdAt.orEmpty(), it.second.createdAt)
             assertEquals(it.first.storyTitle ?: it.first.title.orEmpty(), it.second.title)
-            assertEquals(it.first.url.orEmpty(), it.second.url)
+            assertEquals(it.first.storyUrl.orEmpty(), it.second.url)
         }
         assertEquals(remoteNews.hits?.size, localHits?.size)
     }
@@ -44,7 +44,7 @@ class DataHitMapperTest {
             assertEquals(it.first.author.orEmpty(), it.second.author)
             assertEquals(it.first.createdAt.orEmpty(), it.second.createdAt)
             assertEquals(it.first.storyTitle ?: it.first.title.orEmpty(), it.second.title)
-            assertEquals(it.first.url.orEmpty(), it.second.url)
+            assertEquals(it.first.storyUrl.orEmpty(), it.second.url)
         }
         assertEquals(remoteHits.size, localHits.size)
     }

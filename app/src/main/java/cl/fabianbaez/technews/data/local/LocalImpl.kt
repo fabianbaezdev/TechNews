@@ -14,6 +14,11 @@ class LocalImpl @Inject constructor(
         databaseBuilder.hitDao().insertAll(values)
     }
 
+    override suspend fun getHitById(id: String): Flow<LocalHit> = flow {
+        val hit = databaseBuilder.hitDao().getById(id)
+        emit(hit)
+    }
+
     override suspend fun getHits(): Flow<List<LocalHit>> = flow {
         val hits = databaseBuilder.hitDao().getAll()
         emit(hits)
